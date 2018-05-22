@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="cn.com.zhirun.ssh0507.model.TUser" table="t_user" schema="test">
+        <id name="id">
+            <column name="id" sql-type="int(6)"/>
+        </id>
+        <property name="user">
+            <column name="user" sql-type="varchar(20)" length="20"/>
+        </property>
+        <property name="pwd">
+            <column name="pwd" sql-type="varchar(11)" length="11" not-null="true"/>
+        </property>
+        <property name="credate">
+            <column name="credate" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="upddate">
+            <column name="upddate" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="deleflg">
+            <column name="deleflg" sql-type="int(1)" not-null="false"/>
+        </property>
+    </class>
+</hibernate-mapping>

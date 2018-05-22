@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="url" value="jdbc:mysql://localhost:3306/test"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+	</bean>
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/test</prop>
+				<prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>
+					cn/com/zhirun/ssh0507/model/Member.hbm.xml
+				</value>
+				<value>cn/com/zhirun/ssh0507/model/TUser.hbm.xml</value>
+				<value>cn/com/zhirun/ssh0507/model/TBusiness.hbm.xml</value>
+			</list>
+		</property></bean>
+		
+		<bean id="memberDao" 
+		class="cn.com.zhirun.ssh0507.dao.MemberDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+		</bean>
+		
+		<bean id="memberService" 
+		class="cn.com.zhirun.ssh0507.service.MemberService">
+		<property name="memberDao" ref="memberDao"></property>
+		</bean>
+		
+		<bean id="controller" 
+		class="cn.com.zhirun.ssh0507.controller.MemberController">
+		<property name="memberService" ref="memberService"></property>
+		</bean>
+
+
+	<!--用户-->
+	<bean id="userDao"
+		  class="cn.com.zhirun.ssh0507.dao.UserDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="userService"
+		  class="cn.com.zhirun.ssh0507.service.UserService">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+	<bean id="usercontroller"
+		  class="cn.com.zhirun.ssh0507.controller.UserController">
+		<property name="userService" ref="userService"></property>
+	</bean>
+	<!--商家-->
+	<bean id="businessDao"
+		  class="cn.com.zhirun.ssh0507.dao.BusinessDao">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean id="businessService"
+		  class="cn.com.zhirun.ssh0507.service.BusinessService">
+		<property name="businessDao" ref="businessDao"></property>
+	</bean>
+	<bean id="businesscontroller"
+		  class="cn.com.zhirun.ssh0507.controller.BusinessController">
+		<property name="businessService" ref="businessService"></property>
+		<property name="resultTotal" ref="resultTotal"></property>
+		<property name="pages" ref="pages"></property>
+	</bean>
+	<bean id="resultTotal"
+		  class="cn.com.zhirun.ssh0507.model.ResultTotal">
+	</bean>
+	<bean id="pages"
+		  class="cn.com.zhirun.ssh0507.model.Pages">
+	</bean>
+
+
+
+
+	<!-- ===================================事务定义开始================================ -->
+	<!-- Hibernate事务管理器 -->
+	<bean id="hibernateTransactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<!-- 定义通知拦截方法 -->
+	<tx:advice id="txAdvice" transaction-manager="hibernateTransactionManager">
+		<tx:attributes>
+			<tx:method name="*" read-only="true"/>
+			<tx:method name="add*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+			<tx:method name="delete*" propagation="REQUIRED"/>
+			<tx:method name="check*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	<!-- 事务拦截切面定义 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* cn.com.zhirun.ssh0507.service.*.*(..))" id="servicesOperation"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="servicesOperation"/>
+	</aop:config>
+	<!-- ===================================事务定义结束================================ -->
+
+</beans>

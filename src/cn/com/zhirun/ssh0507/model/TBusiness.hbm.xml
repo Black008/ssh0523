@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="cn.com.zhirun.ssh0507.model.TBusiness" table="t_business" schema="test">
+        <id name="businessId">
+            <column name="businessId" sql-type="varchar(100)" length="100"/>
+        </id>
+        <property name="businessName">
+            <column name="businessName" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="phone">
+            <column name="phone" sql-type="varchar(11)" length="11" not-null="true"/>
+        </property>
+        <property name="businessKinds">
+            <column name="businessKinds" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="businessaddress">
+            <column name="businessaddress" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="detailaddress">
+            <column name="detailaddress" sql-type="varchar(20)" length="20" not-null="true"/>
+        </property>
+        <property name="salary">
+            <column name="salary" sql-type="int(11)" not-null="true"/>
+        </property>
+        <property name="cred">
+            <column name="cred" sql-type="varchar(50)" length="50" not-null="false"/>
+        </property>
+        <property name="uppda">
+            <column name="uppda" sql-type="varchar(50)" length="50" not-null="false"/>
+        </property>
+        <property name="flg">
+            <column name="flg" sql-type="int(1)" not-null="false"/>
+        </property>
+        <property name="comment">
+            <column name="comment" sql-type="varchar(100)" length="100" not-null="false"/>
+        </property>
+    </class>
+</hibernate-mapping>

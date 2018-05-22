@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+<package name="default" extends="struts-default">
+<action name="selectMemberByName" class="controller"
+                 method="selectMember">
+    <result name="success">/result.jsp</result>
+</action>
+
+</package>
+    <!--ajax登录注册-->
+    <package name="testajax" extends="json-default">
+        <!--检查登陆时用户名是否存在-->
+        <action name="CheckloginUser" class="usercontroller" method="CheckLoginUser">
+            <result name="success" type="json">
+                <param name="root">result</param>
+        </result>
+        </action>
+
+        <!--检查密码是否存在-->
+        <action name="checkPwdisexist" class="usercontroller" method="checkLoginPwd">
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+        </action>
+
+        <!--检查注册时用户名是否存在-->
+        <action name="checkUserisexist" class="usercontroller" method="CheckregUser">
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+        </action>
+        <!--注册 按注册按钮后插入数据库并且跳转页面-->
+        <action name="regsubmit" class="usercontroller" method="addUser">
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+        </action>
+    </package>
+    <!--ajax商家管理-->
+    <package name="businessajax" extends="json-default">
+        <!--添加商家-->
+        <action name="addBusiness" class="businesscontroller" method="addBusiness">
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+        </action>
+        <!--查询商家-->
+        <action name="SelectByBusiness" class="businesscontroller" method="selectByBusiness">
+            <result name="success" type="json">
+                <param name="root">resultTotal</param>
+            </result>
+        </action>
+        <!--点击修改页面的保存按钮-->
+        <action name="ModifyBusiness" class="businesscontroller" method="updateBusiness">
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+        </action>
+
+        <!--点击删除所有按钮-->
+        <action name="DeleteBusiness" class="businesscontroller" method="updateFlgByDeleteBusinessServlet">
+            <result name="success" type="json">
+                <param name="root">resultTotal</param>
+            </result>
+        </action>
+        <!--当输入商家名字失去焦点之后，查询数据库商家名字是否存在，如果存在跳转页面显示用户名以存在-->
+        <action name="CheckaddBusiness" class="businesscontroller" method="selectByName">
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+        </action>
+
+
+        <!--点击其他按钮-->
+        <action name="OtherBut" class="businesscontroller" method="ClickSelectByBusiness">
+            <result name="success" type="json">
+                <param name="root">resultTotal</param>
+            </result>
+        </action>
+
+        <!--退出登录-->
+        <action name="quitLogin" class="businesscontroller" method="quitUserLogin">
+            <result name="success" type="json">
+                <param name="root">resultTotal</param>
+            </result>
+        </action>
+    </package>
+
+</struts>    
